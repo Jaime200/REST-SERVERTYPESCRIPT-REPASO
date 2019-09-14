@@ -3,7 +3,7 @@ import Server from './classes/server';
 import routerNormal from './routes/router';
 import bodyParser from 'body-parser'
 import cors from 'cors'
-const server = new Server();
+const server = Server.instance;
 //Body parser
 server.app.use(bodyParser.urlencoded({extended:true}));
 server.app.use(bodyParser.json());
@@ -12,5 +12,6 @@ server.app.use(cors({ origin:true, credentials:true  }))
 server.app.use('/',routerNormal)
 
 server.start(()=>{
-    console.log(`Servidor corriendo el el puerto ${server.port}`)
+    console.log('[Clase index en server.start]  ==> ',`Escuchando el puerto ${server.port}`)
+    
 })
