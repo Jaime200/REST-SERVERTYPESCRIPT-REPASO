@@ -1,4 +1,5 @@
 import {Router,Response,Request } from 'express'
+import Server from '../classes/server';
 
  const routerNormal = Router();
 
@@ -16,12 +17,13 @@ routerNormal.post('/mensajes',(req:Request,res:Response)=>{
     const cuerpo = req.body.cuerpo;
     const de = req.body.de;
      
+    const server = Server.instance;
+
+    const payloadEmit = {cuerpo,  de, }
+    server.io.emit('mensaje-nuevo',payloadEmit)
     return res.json({
         ok: true,
-        mensaje:{
-            cuerpo,
-            de
-        }
+        mensaje:{ cuerpo, de  }
     })
 });
 
@@ -30,14 +32,18 @@ routerNormal.post('/mensajes/:id',(req:Request,res:Response)=>{
     const cuerpo = req.body.cuerpo;
     const de = req.body.de;
     const id = req.params.id
-     
+    
+    const server = Server.instance;
+
+    const payloadEmit = {
+        cuerpo,
+        de, 
+        id
+    }
+    server.io.in(id).emit('mensaje-privado',payloadEmit)
     return res.json({
         ok: true,
-        mensaje:{
-            cuerpo,
-            de, 
-            id
-        }
+        mensaje:payloadEmit
     })
 });
 

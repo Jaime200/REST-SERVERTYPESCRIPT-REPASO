@@ -27,15 +27,13 @@ export default class Server {
         console.log('[Clase server en sockets]      ==>','Escuchando sockets')
 
         this.io.on('connection',cliente  =>{
-            console.log('[Clase server en sockets]      ==> ','Cliente conectado', cliente.id)
 
-            // cliente.on('disconnect',()=>{
-            // console.log('[Clase server en sockets]      ==> ','Cliente desconectado', cliente.id)
-            // })
+            // console.log('[Clase server en sockets]      ==> ','Cliente conectado', cliente.id)
+            socket.ConectarCliente(cliente);
+            socket.configurarUsuario(cliente,this.io);
             socket.mensaje(cliente,this.io);
             socket.desconectar(cliente);
 
-            
         })
     }
 
