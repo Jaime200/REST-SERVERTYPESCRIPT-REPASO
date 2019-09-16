@@ -29,10 +29,11 @@ export default class Server {
         this.io.on('connection',cliente  =>{
 
             // console.log('[Clase server en sockets]      ==> ','Cliente conectado', cliente.id)
-            socket.ConectarCliente(cliente);
+            socket.ConectarCliente(cliente, this.io);
             socket.configurarUsuario(cliente,this.io);
-            socket.mensaje(cliente,this.io);
-            socket.desconectar(cliente);
+            socket.obtenerUsuarios(cliente,this.io);
+            socket.mensaje(cliente,this.io);            
+            socket.desconectar(cliente, this.io);
 
         })
     }

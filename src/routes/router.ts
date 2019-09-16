@@ -1,5 +1,7 @@
-import {Router,Response,Request } from 'express'
+import {Router,Response,Request, response } from 'express'
 import Server from '../classes/server';
+import { Socket } from 'socket.io';
+import { usuariosConectados } from '../classes/socket';
 
  const routerNormal = Router();
 
@@ -46,6 +48,36 @@ routerNormal.post('/mensajes/:id',(req:Request,res:Response)=>{
         mensaje:payloadEmit
     })
 });
+
+
+
+//Servicios para tener todos los ID de los usuarios
+routerNormal.get('/usuarios',(req:Request, resp:Response)=>{
+    const server = Server.instance;
+    
+    server.io.clients( (err:any, clientes: string[]) =>{
+        if(err) return resp.json({
+            ok:false,
+            mensaje: err
+        })
+        return resp.json({
+            ok: true,   
+            clientes 
+        })
+
+    })
+   
+})
+
+// Obtener usuarios y nombres 
+routerNormal.get('/usuarios/detalle' ,(req:Request, resp:Response) =>{
+
+
+return resp.json({
+    ok:true,
+    clientes: usuariosConectados.getLista()
+})
+})
 
 export default routerNormal
 
